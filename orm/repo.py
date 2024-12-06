@@ -44,6 +44,7 @@ def calificacion_por_id(sesion:Session, id_cal:int):
     return sesion.query(modelos.Calificacion).filer(modelos.Calificacion.id==id_cal).first()
 
 # SELECT * FROM app.calificaciones WHERE id_alumno={id_al}
+# GET '/alumnos/{id}/calificaciones'
 def calificaciones_por_id_alumno(sesion:Session, id_al:int):
     print("SELECT * FROM app.calificaciones WHERE id_alumno={id_al}", id_al)
     return sesion.query(modelos.Calificacion).filter(modelos.Calificacion.id_alumno==id_al).all()
