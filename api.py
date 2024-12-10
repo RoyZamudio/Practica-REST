@@ -36,7 +36,7 @@ def alumno_por_id(id ,sesion:Session=Depends(generador_sesion)):
     return repo.alumno_por_id(sesion, id)
 
 #PUT
-@app.put("alumnos/{id}")
+@app.put("/alumnos/{id}")
 def actualiza_alumno(id:int, info_alumno:esquemas.AlumnoBase, sesion:Session=Depends(generador_sesion)):
     repo.actualiza_alumno(sesion, id, info_alumno)
 
@@ -68,7 +68,7 @@ def calificaciones_por_id_alm(id:int,sesion:Session=Depends(generador_sesion)):
     print("API consultando calificaciones del alumno ", id)
     return repo.calificaciones_por_id_alumno(sesion, id)
 
-@app.put("calificaciones/{id}")
+@app.put("/calificaciones/{id}")
 def actualiza_alumno(id:int, info_calificacion:esquemas.CalificacionBase, sesion:Session=Depends(generador_sesion)):
     repo.actualiza_calificacion(sesion, id, info_calificacion)
 
@@ -100,7 +100,7 @@ def fotos_por_id_alm(id:int,sesion:Session=Depends(generador_sesion)):
     return repo.fotos_por_id_alumno(sesion, id)
 
 # PUT '/fotos/{id}'
-@app.put("fotos/{id}")
+@app.put("/fotos/{id}")
 def actualiza_alumno(id:int, info_foto:esquemas.FotoBase, sesion:Session=Depends(generador_sesion)):
     repo.actualiza_foto(sesion, id, info_foto)
 

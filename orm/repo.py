@@ -77,7 +77,7 @@ def calificaciones_por_id_alumno(sesion:Session, id_al:int):
 # PUT 'calificaciones/{id}'
 def actualiza_calificacion(sesion:Session, id_cal:int, cal_esquema:esquemas.CalificacionBase):
     # Verificar que el usuario existe
-    cal_bd = calificacion_por_id(sesion, id_cal, cal_esquema)
+    cal_bd = calificacion_por_id(sesion, id_cal)
     if cal_bd is not None:
         # Actualizar los datos de la calificación en la BD
         cal_bd.uea = cal_esquema.uea
