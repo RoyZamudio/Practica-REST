@@ -7,6 +7,7 @@ import uuid
 import orm.repo as repo #funciones para hacer consultas a la BD
 from sqlalchemy.orm import Session
 from orm.config import generador_sesion #generador de sesiones
+import orm.esquemas as esquemas
 
 # Creación del servidor
 app = FastAPI()
@@ -30,15 +31,20 @@ def lista_alumnos(sesion:Session=Depends(generador_sesion)):
 
 # GET '/alumnos/{id}
 @app.get("/alumnos/{id}")
-def alumno_por_id(id, sesion:Session=Depends(generador_sesion)):
+def alumno_por_id(id ,sesion:Session=Depends(generador_sesion)):
     print("API consultando alumno por id")
     return repo.alumno_por_id(sesion, id)
+
+#PUT
+@app.put("alumnos/{id}")
+def actualiza_alumno(id:int, info_alumno:esquemas.AlumnoBase, sesion:Session=Depends(generador_sesion)):
+    repo.actualiza_alumno(sesion, id, info_alumno)
 
 # DELETE '/alumnos/{id}'
 @app.delete("/alumnos/{id}")
 def borrar_alumno(id:int, sesion:Session=Depends(generador_sesion)):
-    repo.borrar_calificaciones_por_id_alumno(sesion,id)
-    repo.borrar_fotos_por_id_alumno(sesion,id)
+    # repo.borrar_calificaciones_por_id_alumno(sesion,id)
+    # repo.borrar_fotos_por_id_alumno(sesion,id)
     repo.borra_alumno_por_id(sesion,id)
     return {"alumno_borrado", "ok"}
 
@@ -61,6 +67,10 @@ def calificacion_por_id(id:int, sesion:Session=Depends(generador_sesion)):
 def calificaciones_por_id_alm(id:int,sesion:Session=Depends(generador_sesion)):
     print("API consultando calificaciones del alumno ", id)
     return repo.calificaciones_por_id_alumno(sesion, id)
+
+@app.put("calificaciones/{id}")
+def actualiza_alumno(id:int, info_calificacion:esquemas.CalificacionBase, sesion:Session=Depends(generador_sesion)):
+    repo.actualiza_calificacion(sesion, id, info_calificacion)
 
 # DELETE '/alumnos/{id}/calificaciones'
 @app.delete("/alumnos/{id}/calificaciones")
@@ -88,6 +98,11 @@ def foto_por_id(id:int, sesion:Session=Depends(generador_sesion)):
 def fotos_por_id_alm(id:int,sesion:Session=Depends(generador_sesion)):
     print("API consultando fotos del alumno ", id)
     return repo.fotos_por_id_alumno(sesion, id)
+
+# PUT '/fotos/{id}'
+@app.put("fotos/{id}")
+def actualiza_alumno(id:int, info_foto:esquemas.FotoBase, sesion:Session=Depends(generador_sesion)):
+    repo.actualiza_foto(sesion, id, info_foto)
 
 # DELETE '/alumnos/{id}/fotos'
 def borrar_fotos(id: int, sesion: Session = Depends(generador_sesion)):

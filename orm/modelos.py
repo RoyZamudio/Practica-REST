@@ -1,5 +1,5 @@
 from orm.config import BaseClass
-from sqlalchemy import Column, String, Integer, DateTime, ForeingKey, Float
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Float
 import datetime
 
 # Clase Alumno
@@ -19,7 +19,7 @@ class Alumno(BaseClass):
 class Calificacion(BaseClass):
     __tablename__="calificaciones"
     id=Column(Integer, primary_key=True)
-    id_alumno=Column(Integer, ForeingKey(Alumno.id))
+    id_alumno=Column(Integer, ForeignKey(Alumno.id))
     uea=Column(String(100))
     calificacion=Column(String(100))
 
@@ -27,7 +27,7 @@ class Calificacion(BaseClass):
 class Foto(BaseClass):
     __tablename__="fotos"
     id=Column(Integer, primary_key=True)
-    id_alumno=Column(Integer, ForeingKey(Alumno.id))
+    id_alumno=Column(Integer, ForeignKey(Alumno.id))
     titulo=Column(String(100))
     descripcion=Column(String(100))
     ruta=Column(String(50))
