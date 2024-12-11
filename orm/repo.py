@@ -17,6 +17,7 @@ def alumno_por_id(sesion:Session, id_al:int):
     print("SELECT * FROM app.alumnos WHERE id={id_al}", id_al)
     return sesion.query(modelos.Alumno).filter(modelos.Alumno.id==id_al).first()
 
+# POST '/alumnos'
 def guardar_alumno(sesion:Session, alm_nuevo:esquemas.AlumnoBase):
     #1.- Crear un nuevo objeto de la clase modelo Usuario
     alm_bd = modelos.Alumno()
@@ -93,6 +94,7 @@ def calificaciones_por_id_alumno(sesion:Session, id_al:int):
     print("SELECT * FROM app.calificaciones WHERE id_alumno={id_al}", id_al)
     return sesion.query(modelos.Calificacion).filter(modelos.Calificacion.id_alumno==id_al).all()
 
+# POST '/alumnos/{id}/calificaciones'
 def guardar_calificacion(sesion:Session, cal_nueva:esquemas.CalificacionBase, id_alumno:int):
     cal_bd = modelos.Calificacion()
     is_alm = alumno_por_id(sesion, id_alumno)
@@ -154,6 +156,7 @@ def fotos_por_id_alumno(sesion:Session,id_al:int):
     print("SELECT * FROM app.fotos WHERE id_alumnos={id_al}", id_al)
     return sesion.query(modelos.Foto).filter(modelos.Foto.id_alumno==id_al).all()
 
+# POST 'alumnos/{id}/fotos'
 def guardar_foto(sesion:Session, foto_nueva:esquemas.FotoBase, id_alumno:int):
     foto_bd = modelos.Foto()
     is_alm = alumno_por_id(sesion, id_alumno)
@@ -167,6 +170,7 @@ def guardar_foto(sesion:Session, foto_nueva:esquemas.FotoBase, id_alumno:int):
         sesion.refresh(foto_bd)
         return foto_bd
 
+# PUT '/fotos/{id}'
 def actualiza_foto(sesion:Session, id_foto:int, foto_esquema:esquemas.FotoBase):
     # Verificar que el usuario existe
     foto_bd = foto_por_id(sesion, id_foto, foto_esquema)

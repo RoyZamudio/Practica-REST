@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-#Definir el esquema alumno
+#Esquema alumno
 class AlumnoBase(BaseModel):
     nombre:str
     edad:int
@@ -9,11 +9,13 @@ class AlumnoBase(BaseModel):
     trimestre:str
     email:str
     password:str
-    
+
+ #Esquema calificaciones   
 class CalificacionBase(BaseModel):
     uea:str
     calificacion:str
 
+#Esquema foto
 class FotoBase(BaseModel):
     titulo:str
     descripcion:str
