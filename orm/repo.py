@@ -164,7 +164,6 @@ def guardar_foto(sesion:Session, foto_nueva:esquemas.FotoBase, id_alumno:int):
         foto_bd.id_alumno = id_alumno
         foto_bd.titulo = foto_nueva.titulo
         foto_bd.descripcion = foto_nueva.descripcion
-        foto_bd.ruta = foto_nueva.ruta
         sesion.add(foto_bd)
         sesion.commit()
         sesion.refresh(foto_bd)
@@ -178,7 +177,6 @@ def actualiza_foto(sesion:Session, id_foto:int, foto_esquema:esquemas.FotoBase):
         # Actualizar los datos de la calificación en la BD
         foto_bd.titulo = foto_esquema.titulo
         foto_bd.descripcion = foto_esquema.descripcion
-        foto_bd.ruta = foto_esquema.ruta
         # Confirmamos la sesión
         sesion.commit()
         # Refrescar la BD
