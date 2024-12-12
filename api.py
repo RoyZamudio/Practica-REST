@@ -8,6 +8,7 @@ import orm.repo as repo #funciones para hacer consultas a la BD
 from sqlalchemy.orm import Session
 from orm.config import generador_sesion #generador de sesiones
 import orm.esquemas as esquemas
+import orm.modelos as modelos
 
 # Creación del servidor
 app = FastAPI()
@@ -116,10 +117,40 @@ def fotos_por_id_alm(id:int,sesion:Session=Depends(generador_sesion)):
 
 # POST 'alumnos/{id}/fotos'
 @app.post("/alumnos/{id}/fotos")
-def guardar_foto(foto:esquemas.FotoBase, id_alumno:int, sesion:Session=Depends(generador_sesion)):
-    print(foto)
-    #guardado en la base.
-    return repo.guardar_foto(sesion,foto,id_alumno)
+async def guardar_foto(id: int,
+                       titulo: str = Form(...),
+                       descripcion: str = Form(...),
+                       foto: UploadFile = File(...),
+                       sesion: Session = Depends(generador_sesion)):
+    # Creamos un nuevo objeto de tipo Foto
+    nueva_foto = modelos.Foto()
+    
+    # Asignamos los valores recibidos del formulario
+    nueva_foto.id_alumno = id
+    nueva_foto.titulo = titulo
+    nueva_foto.descripcion = descripcion
+    
+    # Guardamos el archivo en el servidor
+    nombre_archivo = f"{uuid.uuid4()}{os.path.splitext(foto.filename)[1]}"
+    home_usuario = os.path.expanduser("~")
+    ruta_imagen = os.path.join(f"{home_usuario}/fotos-alumnos", nombre_archivo)
+    
+    os.makedirs(f"{home_usuario}/fotos-alumnos", existiendo=True)
+
+    with open(ruta_imagen, "wb") as archivo_foto:
+        contenido = await foto.read()
+        archivo_foto.write(contenido)
+    
+    # Almacenamos la ruta del archivo en el objeto Foto
+    nueva_foto.ruta = ruta_imagen
+    
+    # Guardamos la nueva foto en la base de datos
+    sesion.add(nueva_foto)
+    sesion.commit()
+    sesion.refresh(nueva_foto)
+    
+    return nueva_foto
+
 
 # PUT '/fotos/{id}'
 @app.put("/fotos/{id}")
